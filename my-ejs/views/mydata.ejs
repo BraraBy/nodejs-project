@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .container {
+        display: grid;
+        grid-template-columns: auto auto;
+        width: 400px;
+    }
+</style>
+<body>
+    <h1>
+        <center>
+            <div class="container">
+                <% users.forEach((u)=>{ %>
+                    <div><%= u.id %></div>
+                    <div><%= u.name %></div>
+                    
+                <% }); %>
+            </div>
+        </center>
+    </h1>
+</body>
+</html>

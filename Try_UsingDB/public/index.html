@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Users Management</title>
+<style>
+.user-container {
+display: flex;
+flex-direction: column;
+margin: 10px;
+}
+.user-item {
+border: 1px solid #ccc;
+padding: 10px;
+margin: 5px 0;
+display: flex;
+justify-content: space-between;
+}
+.user-actions button {
+margin-left: 5px;
+}
+</style>
+</head>
+<body>
+        <h1>Users Management</h1>
+
+        <div id="user-list" class="user-container"></div>
+
+        <h2>Add New User</h2>
+        <form id="user-form">
+        <input type="text" id="name" placeholder="Name" required />
+
+        <input type="email" id="email" placeholder="Email" required />
+        <button type="submit">Add User</button>
+</form>
+
+<script>
+const userList = document.getElementById('user-list');
+const userForm = document.getElementById('user-form');
+
+// Fetch users and display
+async function fetchUsers() {
+const response = await fetch('/users');
+const users = await response.json();
+userList.innerHTML = '';
+users.forEach(user => {
+const userDiv = document.createElement('div');
+userDiv.classList.add('user-item');
+userDiv.innerHTML = `
+<span>${user.name} (${user.email})</span>
+<div class="user-actions">
+<button onclick="updateUser(${user.id}, '${user.name}',
+'${user.email}')">Update</button>
+<button onclick="deleteUser(${user.id})">Delete</button>
+</div>
+`;
+userList.appendChild(userDiv);
+});
+}
+
+// Add new user
+userForm.addEventListener('submit', async (e) => {
+e.preventDefault();
+const name = document.getElementById('name').value;
+const email = document.getElementById('email').value;
+
+await fetch('/users/add', {
+method: 'POST',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ name, email })
+});
+fetchUsers();
+});
+
+// Update user
+async function updateUser(id, name, email) {
+const newName = prompt('Enter new name:', name);
+const newEmail = prompt('Enter new email:', email);
+if (newName && newEmail) {
+await fetch(`/users/update/${id}`, {
+method: 'PUT',
+headers: { 'Content-Type': 'application/json' },
+body: JSON.stringify({ name: newName, email: newEmail })
+});
+fetchUsers();
+}
+
+}
+
+// Delete user
+async function deleteUser(id) {
+if (confirm('Are you sure to delete this user?')) {
+await fetch(`/users/delete/${id}`, {
+method: 'DELETE'
+});
+fetchUsers();
+}
+}
+
+// Initial load
+fetchUsers();
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sales Data</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<h1>Sales Data</h1>
+
+<!-- DataGrid -->
+<table border="1" id="data-grid">
+<thead>
+<tr>
+<th>ID</th>
+<th>Date</th>
+<th>Sales</th>
+</tr>
+
+</thead>
+<tbody>
+<% salesData.forEach(function(sale) { %>
+<tr data-id="<%= sale.id %>" class="data-row">
+<td><%= sale.id %></td>
+<td><%= sale.date %></td>
+<td><%= sale.sales %></td>
+</tr>
+<% }); %>
+</tbody>
+</table>
+
+<!-- Dropdown สําหรับเปลี่ยนกราฟ -->
+<select id="chart-type">
+<option value="line">Line Chart</option>
+<option value="bar">Bar Chart</option>
+</select>
+
+<!-- Canvas สําหรับแสดงกราฟ -->
+<canvas id="salesChart"></canvas>
+
+<script src="/js/chart.js"></script>
+</body>
+</html>
