@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "gridjs": "^6.2.0",
     "pg": "^8.13.0"
   }
 }

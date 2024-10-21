@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACL Example</title>
+</head>
+<body>
+<h1>Welcome to the ACL Controlled Page</h1>
+
+<% permissions.forEach(permission => { %>
+<% if (permission.resource_name === 'button_1' && permission.permission_name ===
+'read') { %>
+<button>Submit</button>
+<% } %>
+
+<% if (permission.resource_name === 'section_1' && permission.permission_name ===
+'read') { %>
+<div>
+<h2>Section A</h2>
+<p>This is some content in Section A.</p>
+</div>
+<% } %>
+
+<% if (permission.resource_name === 'form_1' && permission.permission_name === 'read')
+{ %>
+<form action="/submit" method="POST">
+<input type="text" name="username" placeholder="Username">
+<button type="submit">Submit Form</button>
+</form>
+
+<% } %>
+<% }) %>
+
+<a href="/logout">Logout</a>
+</body>
+</html>
